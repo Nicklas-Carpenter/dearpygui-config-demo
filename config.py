@@ -151,12 +151,12 @@ with dpg.window(label="", width=1000, height=700, no_resize=True, no_move=True,
           dpg.add_text("Selection Type:")
           dpg.add_radio_button(["Single Elite", "Fractional Elite",
                                 "Classic Tournament",
-                                "Fitness Proportional", "Rank Proportional"],
+                                "Fitness Proportional", "Rank Proportional", "MAP Elites"],
                                 default_value="Fitness Proportional")
 
         with dpg.table_cell():
           dpg.add_text("Diversity Measure:")
-          dpg.add_radio_button(["None", "Unique", "Hamming Distance"],
+          dpg.add_radio_button(["None", "Unique Individuals", "Hamming Distance"],
                                 default_value="Hamming Distance")
 
     dpg.add_separator()
