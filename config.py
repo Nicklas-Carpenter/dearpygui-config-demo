@@ -60,11 +60,11 @@ def cb_handle_select_one_file(_, file_selection_data, write_loc):
 
 ### Start creating GUI ###
 
-dpg.create_viewport(title="Config Editor", width=700, height=700,
-                    max_width=700, min_width=700, max_height=700,
-                    min_height=700)
+dpg.create_viewport(title="Config Editor", width=1000, height=700)#,
+                    #max_width=700, min_width=700, max_height=700,
+                    #min_height=700)
 
-with dpg.window(label="", width=700, height=700, no_resize=True, no_move=True,
+with dpg.window(label="", width=1000, height=700, no_resize=True, no_move=True,
                 no_collapse=True, no_title_bar=True):
   ### Section for configuring operation mode ###
   with dpg.collapsing_header(label="Operation Mode"):
