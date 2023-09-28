@@ -33,9 +33,11 @@ dpg.create_context()
 # toggle state of the sender changes. Usually used for checkboxes.
 def cb_handle_enable_state_on_toggle(_, enabled, item):
   if enabled:
-    dpg.enable_item(item)
+    #dpg.enable_item(item)
+    dpg.show_item(item)
   else:
-    dpg.disable_item(item)
+    #dpg.disable_item(item)
+    dpg.hide_item(item)
 
 with dpg.item_handler_registry(tag="show_item_on_click") as handler:
   def cb_show_item_on_click(_, click_event_data):
@@ -177,6 +179,7 @@ with dpg.window(label="", width=1000, height=700, no_resize=True, no_move=True,
                         user_data="fitness_target")
       dpg.add_input_int(min_value=2, min_clamped=True, default_value=1000,
                         enabled=False, tag="fitness_target")
+      dpg.hide_item("fitness_target")
 
   ### Section for configuring initialization mode ###
   with dpg.collapsing_header(label="Initialization"):
