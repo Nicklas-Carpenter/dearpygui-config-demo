@@ -187,14 +187,27 @@ with dpg.window(label="", width=1000, height=700, no_resize=True, no_move=True,
     # responsible for showing/hiding the randomization parameters everytime the
     # "Randomize" option is selected/deselected.
     def cb_handle_init_mode_change(sender, init_mode):
+      dpg.delete_item("randomize_params")
+
       if init_mode == "Randomize":
         with dpg.group(horizontal=True, tag="randomize_params",
                         before="randomize_params_anchor"):
           dpg.add_text("Randomize: ")
           dpg.add_combo(["until pulse threshold", "until variance threshold",
                            "once"], default_value="once")
-      else:
-        dpg.delete_item("randomize_params")
+      elif init_mode == "Use existing population":
+        with dpg.group(horizontal=True, tag="existing_pop_params",
+                        before="randomize_params_anchor"):
+          item = "Populations Source: "
+          dpg.add_text(item)
+          dpg.add_input_text(readonly=True, tag=f"{item} display",
+                              user_data=f"{item} selector")
+          dpg.bind_item_handler_registry(f"{item} display", "show_item_on_click")
+          with dpg.file_dialog(show=False, directory_selector=True, modal=True,
+                                width=500, height=300, tag=f"{item} selector",
+                                user_data=f"{item} display",
+                                callback=cb_handle_select_one_file):
+            dpg.add_file_extension(".*")
 
     with dpg.group():
       dpg.add_text("Initialization Mode:")
@@ -217,8 +230,7 @@ with dpg.window(label="", width=1000, height=700, no_resize=True, no_move=True,
                                           "Save .asc files to: ",
                                           "Save .bin files to: ",
                                           "Save MCU data to: ",
-                                          "Analysis directory: ",
-                                          "Populations source: ")
+                                          "Analysis directory: ")
 
     with dpg.group(horizontal=True):
       dpg.add_text(outp_justified_strs["Log level: "])
@@ -263,7 +275,7 @@ with dpg.window(label="", width=1000, height=700, no_resize=True, no_move=True,
     # Non-optional output directories
     items = ["Save Output to: ", "Save .asc files to: ",
              "Save .bin files to: ", "Save MCU data to: ",
-             "Analysis directory: ", "Populations source: "]
+             "Analysis directory: "]
     for item in items:
       with dpg.group(horizontal=True):
         dpg.add_text(outp_justified_strs[item])
