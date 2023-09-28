@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from tkinter import HORIZONTAL
 import dearpygui.dearpygui as dpg
 
 # Return a new string that is _str padded with spaces, if necessary until it is
@@ -86,32 +87,25 @@ with dpg.window(label="", width=1000, height=700, no_resize=True, no_move=True,
     def cb_update_fit_fn(sender, fitness_function):
       dpg.delete_item("fit_fn_param")
       
-      if fitness_function == "Variance":
-        with dpg.group(horizontal=True, tag="fit_fn_param",
+      if fitness_function == "Combined":
+        with dpg.group(tag="fit_fn_param",
                         before="fit_fn_param_anchor"):
-          dpg.add_text(fit_justified_strs["Variance Weight: "])
-          dpg.add_slider_float(min_value=0, max_value=1.0, clamped=True)
-      elif fitness_function == "Pulse":
-        with dpg.group(horizontal=True, tag="fit_fn_param",
-                        before="fit_fn_param_anchor"):
-          dpg.add_text(fit_justified_strs["Pulse Weight: "])
-          dpg.add_slider_float(min_value=0, max_value=1.0, clamped=True)
-      elif fitness_function == "Combined":
-        with dpg.group(horizontal=True, tag="fit_fn_param",
-                        before="fit_fn_param_anchor"):
-          dpg.add_text(fit_justified_strs["Combination Type: "])
-          dpg.add_radio_button(["Add", "Mult"], horizontal=True)
-      else:
-        raise Exception("You broke my app :(")
+          with (dpg.group(horizontal=True)):
+            dpg.add_text(fit_justified_strs["Combination Type: "])
+            dpg.add_radio_button(["Add", "Mult"], horizontal=True)
+          
+          with (dpg.group(horizontal=True)):
+            dpg.add_text(fit_justified_strs["Variance Weight: "])
+            dpg.add_slider_float(min_value=0, max_value=5.0, clamped=True)
+
+          with (dpg.group(horizontal=True)):
+            dpg.add_text(fit_justified_strs["Pulse Weight: "])
+            dpg.add_slider_float(min_value=0, max_value=5.0, clamped=True)
 
     dpg.add_text("Fitness Function:")
     dpg.add_radio_button(["Variance", "Pulse", "Combined"],
                           default_value="Variance", callback=cb_update_fit_fn,
                           horizontal=True)
-
-    with dpg.group(horizontal=True, tag="fit_fn_param"):
-      dpg.add_text(fit_justified_strs["Variance Weight: "])
-      dpg.add_slider_float(min_value=0, max_value=1.0, clamped=True)
 
     dpg.add_separator(tag="fit_fn_param_anchor")
 
