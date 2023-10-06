@@ -32,10 +32,8 @@ dpg.create_context()
 # toggle state of the sender changes. Usually used for checkboxes.
 def cb_handle_enable_state_on_toggle(_, enabled, item):
   if enabled:
-    #dpg.enable_item(item)
     dpg.show_item(item)
   else:
-    #dpg.disable_item(item)
     dpg.hide_item(item)
 
 with dpg.item_handler_registry(tag="show_item_on_click") as handler:
@@ -62,12 +60,16 @@ def cb_handle_select_one_file(_, file_selection_data, write_loc):
 
 ### Start creating GUI ###
 
-dpg.create_viewport(title="Config Editor", width=1000, height=700)#,
-                    #max_width=700, min_width=700, max_height=700,
-                    #min_height=700)
+dpg.create_viewport(title="Config Editor", width=1000, height=700)
+
+def cb_viewport_resize():
+  dpg.set_item_width("main_window", dpg.get_viewport_width())
+  dpg.set_item_height("main_window", dpg.get_viewport_height())
+
+dpg.set_viewport_resize_callback(cb_viewport_resize)
 
 with dpg.window(label="", width=1000, height=700, no_resize=True, no_move=True,
-                no_collapse=True, no_title_bar=True):
+                no_collapse=True, no_title_bar=True, id="main_window"):
   ### Section for configuring operation mode ###
   with dpg.collapsing_header(label="Operation Mode"):
     dpg.add_radio_button(["Fully Intrisinc", "Simulate Hardware",
